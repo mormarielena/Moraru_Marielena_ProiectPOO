@@ -54,6 +54,11 @@ public:
             this->costuriApartament = nullptr;
         }
     }
+
+    static void setnrTotalAp(float setnrTotalApnou)
+    {
+        nrTotalAp = setnrTotalApnou;
+    }
 };
 
 int Apartament::nrTotalAp = 20;
@@ -128,6 +133,11 @@ public:
             this->nrApPeEtaj = nullptr;
         }
     }
+
+    static void setnrTotalBl(float setnrTotalBlnou)
+    {
+        nrTotalBl = setnrTotalBlnou;
+    }
 };
 
 int Bloc::nrTotalBl = 5;
@@ -201,6 +211,11 @@ public:
             delete[]this->consumuriLoc;
             this->consumuriLoc = nullptr;
         }
+    }
+
+    static void setnrMaxLocatari(float setnrMaxLocatarinou)
+    {
+        nrMaxLocatari = setnrMaxLocatarinou;
     }
 };
 
