@@ -55,9 +55,9 @@ public:
         }
     }
 
-    static void setnrTotalAp(float setnrTotalApnou)
+    static void setnrTotalAp(float nrTotalApnou)
     {
-        nrTotalAp = setnrTotalApnou;
+        nrTotalAp = nrTotalApnou;
     }
 };
 
@@ -134,9 +134,9 @@ public:
         }
     }
 
-    static void setnrTotalBl(float setnrTotalBlnou)
+    static void setnrTotalBl(float nrTotalBlnou)
     {
-        nrTotalBl = setnrTotalBlnou;
+        nrTotalBl = nrTotalBlnou;
     }
 };
 
@@ -213,9 +213,9 @@ public:
         }
     }
 
-    static void setnrMaxLocatari(float setnrMaxLocatarinou)
+    static void setnrMaxLocatari(float nrMaxLocatarinou)
     {
-        nrMaxLocatari = setnrMaxLocatarinou;
+        nrMaxLocatari = nrMaxLocatarinou;
     }
 };
 
