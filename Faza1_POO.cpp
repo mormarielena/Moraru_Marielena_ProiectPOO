@@ -55,7 +55,7 @@ public:
         }
     }
 
-    static void setnrTotalAp(float nrTotalApnou)
+    static void setnrTotalAp(int nrTotalApnou)
     {
         nrTotalAp = nrTotalApnou;
     }
@@ -134,7 +134,7 @@ public:
         }
     }
 
-    static void setnrTotalBl(float nrTotalBlnou)
+    static void setnrTotalBl(int nrTotalBlnou)
     {
         nrTotalBl = nrTotalBlnou;
     }
@@ -213,7 +213,7 @@ public:
         }
     }
 
-    static void setnrMaxLocatari(float nrMaxLocatarinou)
+    static void setnrMaxLocatari(int nrMaxLocatarinou)
     {
         nrMaxLocatari = nrMaxLocatarinou;
     }
