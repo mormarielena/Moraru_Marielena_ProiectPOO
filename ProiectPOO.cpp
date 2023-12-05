@@ -1,127 +1,137 @@
 #include <iostream>
+#include <fstream>
 using namespace std;
 
-//Domeniul ales este "Complex de apartamente".
+//Domeniul ales este "CoMpLex de apartaMente".
 
 class Apartament {
 private:
-    float suprafata;
+    int suprafata;
     int nrCamere;
-    int* costuriApartament;
-    const int NR_MAXIM_DE_PERS;
+    int* costuriAp;
+    const int nrMaxPers;
     static int nrTotalAp;
 
 public:
-    Apartament() : NR_MAXIM_DE_PERS(4)
+    Apartament() : nrMaxPers(4)
     {
         this->suprafata = 52;
         this->nrCamere = 2;
-        this->costuriApartament = new int[this->nrCamere]();
+        this->costuriAp = new int[this->nrCamere]();
+        for (int i = 0; i < this->nrCamere; i++)
+            this->costuriAp[i] = costuriAp[i];
     }
 
-    Apartament(float suprafata, int nrCamere, const int nr, int* costuriApartament) :NR_MAXIM_DE_PERS(nr)
+    Apartament(int suprafata, int nrCamere, const int nr, int* costuriAp) :nrMaxPers(nr)
     {
         this->suprafata = suprafata;
         this->nrCamere = nrCamere;
-        this->costuriApartament = new int[this->nrCamere];
+        this->costuriAp = new int[this->nrCamere]();
         for (int i = 0; i < this->nrCamere; i++)
-            this->costuriApartament[i] = costuriApartament[i];
+        {
+            this->costuriAp[i] = costuriAp[i];
+        }
     }
 
-    Apartament(float suprafata, const int nr, int* costuriApartament) :NR_MAXIM_DE_PERS(nr)
+    Apartament(int suprafata, const int nr, int* costuriAp) :nrMaxPers(nr)
     {
         this->suprafata = suprafata;
         this->nrCamere = 1;
-        this->costuriApartament = new int[this->nrCamere];
+        this->costuriAp = new int[this->nrCamere]();
         for (int i = 0; i < this->nrCamere; i++)
-            this->costuriApartament[i] = costuriApartament[i];
+        {
+            this->costuriAp[i] = costuriAp[i];
+        }
     }
 
     void afisareAp()
     {
         cout << "Suprafata: " << this->suprafata << " mp2" << "\nNumar de camere: " << this->nrCamere
-            << "\nNumar maxim de persoane: " << this->NR_MAXIM_DE_PERS << "\nIn complex se afla " << this->nrTotalAp
+            << "\nNumar maxim de persoane: " << this->nrMaxPers << "\nIn complex se afla: " << this->nrTotalAp
             << " de apartamente" << "\nCosturi apartamente:";
-            for (int i = 0; i < this->nrCamere; i++)
-            cout << this->costuriApartament[i] << " ";
-        cout << endl;
+        for (int i = 0; i < this->nrCamere - 1; i++)
+        {
+            cout << this->costuriAp[i] << ", ";
+        }
+
+        cout << this->costuriAp[this->nrCamere - 1] << endl;
     }
 
-    ~Apartament() 
+    ~Apartament()
     {
-        if (this->costuriApartament != nullptr) 
+        if (this->costuriAp != nullptr)
         {
-            delete[] this->costuriApartament;
-            this->costuriApartament = nullptr;
+            delete[] this->costuriAp;
+            this->costuriAp = nullptr;
         }
     }
 
-    Apartament(const Apartament& apartament) : NR_MAXIM_DE_PERS(apartament.NR_MAXIM_DE_PERS) //constructor copiere
+    Apartament(const Apartament& a) : nrMaxPers(a.nrMaxPers) //constructor copiere
     {
-        this->suprafata = apartament.suprafata;
-        this->nrCamere = apartament.nrCamere;
-        this->nrTotalAp = apartament.nrTotalAp;
-        this->costuriApartament = apartament.costuriApartament;
-    
-        if (nrCamere > 0) 
+        this->suprafata = a.suprafata;
+        this->nrCamere = a.nrCamere;
+        this->nrTotalAp = a.nrTotalAp;
+        this->costuriAp = a.costuriAp;
+
+        if (nrCamere > 0)
         {
-            this->costuriApartament = new int[nrCamere];
-            for (int i = 0; i < nrCamere; i++) 
+            this->costuriAp = new int[nrCamere];
+            for (int i = 0; i < nrCamere; i++)
             {
-                this->costuriApartament[i] = apartament.costuriApartament[i];
+                this->costuriAp[i] = a.costuriAp[i];
             }
         }
     }
 
-    Apartament& Apartament::operator=(const Apartament& apartament) //op atribuire
+    Apartament& operator=(const Apartament& a) //op atribuire
     {
-        if (this != &apartament) {
-            this->suprafata = apartament.suprafata;
-            this->nrCamere = apartament.nrCamere;
-            this->NR_MAXIM_DE_PERS = apartament.NR_MAXIM_DE_PERS;
-            this->nrTotalAp = apartament.nrTotalAp;
-
-            if (this->costuriApartament != nullptr) {
-                delete[] this->costuriApartament;
+        if (this != &a) {
+            this->suprafata = a.suprafata;
+            this->nrCamere = a.nrCamere;
+            if (this->costuriAp != NULL) {
+                delete[]this->costuriAp;
             }
 
-            this->costuriApartament = new int[this->nrCamere];
+            this->costuriAp = new int[this->nrCamere];
 
             for (int i = 0; i < this->nrCamere; i++) {
-                this->costuriApartament[i] = apartament.costuriApartament[i];
+                this->costuriAp[i] = a.costuriAp[i];
             }
         }
         return *this;
     }
 
-    friend ostream& operator<<(ostream& consola, const Apartament& apartament) {
-        cout << "Suprafata: " << apartament.suprafata << " mp2" << endl;
-        cout << "Numar de camere: " << apartament.nrCamere << endl;
-        cout << "Numar maxim de persoane: " << apartament.NR_MAXIM_DE_PERS << endl;
-        cout << "In complex se afla " << apartament.nrTotalAp << " de apartamente" << endl;
+    friend ostream& operator<<(ostream& consola, const Apartament& a) {
+        cout << "Suprafata: " << a.suprafata << " mp2" << endl;
+        cout << "Nr camere: " << a.nrCamere << endl;
+        cout << "Nr max persoane: " << a.nrMaxPers << endl;
+        cout << "Nr apartamente: " << a.nrTotalAp << endl;
         cout << "Costuri apartamente: ";
-        for (int i = 0; i < apartament.nrCamere; i++)
-            cout << apartament.costuriApartament[i] << " ";
+        for (int i = 0; i < a.nrCamere - 1; i++)
+            cout << a.costuriAp[a.nrCamere - 1] << " ";
         cout << endl;
         return consola;
     }
 
-    friend istream& operator>>(istream& in, Apartament& apartament) {
-        cout << "Suprafata: "; in >> apartament.suprafata;
+    friend istream& operator>>(istream& in, Apartament& a) {
+        cout << "Suprafata: "; 
+        in >> a.suprafata;
 
-        cout << "Numar de camere: "; in >> apartament.nrCamere;
+        cout << "Nr camere: "; 
+        in >> a.nrCamere;
 
-        cout << "Numar maxim de persoane: "; in >> apartament.NR_MAXIM_DE_PERS;
+        cout << "Nr apartamente: "; 
+        in >> a.nrTotalAp;
 
-        cout << "In complex se afla "; in >> apartament.nrTotalAp;
-
-        cout << "Costuri apartamente: ";
-        if (apartament.costuriApartament != nullptr) {
-            delete[] apartament.costuriApartament;
+        if (a.costuriAp != NULL) {
+            delete[] a.costuriAp;
         }
-        apartament.costuriApartament = new int[apartament.nrCamere];
-        for (int i = 0; i < apartament.nrCamere; i++)
-            in >> apartament.costuriApartament[i];
+        a.costuriAp = new int[a.nrCamere];
+        cout << "Costuri apartamente: ";
+        for (int i = 0; i < a.nrCamere; i++)
+        {
+            in >> a.costuriAp[i];
+        }
 
         return in;
     }
@@ -138,9 +148,8 @@ public:
         return temporar;
     }
 
-
-
-    float getsuprafata()
+    //get
+    int getsuprafata()
     {
         return this->suprafata;
     }
@@ -150,9 +159,9 @@ public:
         return this->nrCamere;
     }
 
-    int* getcosturiApartament()
+    int* getcosturiAp()
     {
-        return this->costuriApartament;
+        return this->costuriAp;
     }
 
     int getnrTotalAp()
@@ -160,12 +169,13 @@ public:
         return nrTotalAp;
     }
 
-    int getNR_MAXIM_DE_PERS()
+    int getNrMaxPers()
     {
-        return this->NR_MAXIM_DE_PERS;
+        return this->nrMaxPers;
     }
 
-    void setsuprafata(float suprafata)
+    //set
+    void setsuprafata(int suprafata)
     {
         this->suprafata = suprafata;
 
@@ -176,14 +186,14 @@ public:
         this->nrCamere = nrCamere;
     }
 
-    void setcosturiApartament(int* costuriApartament) 
+    void setcosturiAp(int* costuriAp)
     {
-        if (this->costuriApartament != nullptr) {
-            delete[] this->costuriApartament;
+        if (this->costuriAp != nullptr) {
+            delete[] this->costuriAp;
         }
-        this->costuriApartament = new int[this->nrCamere];
+        this->costuriAp = new int[this->nrCamere];
         for (int i = 0; i < this->nrCamere; i++)
-            this->costuriApartament[i] = costuriApartament[i];
+            this->costuriAp[i] = costuriAp[i];
     }
 
 
@@ -199,8 +209,8 @@ void afisareApartamente()
 {
     cout << " \n \n -------- LISTA APARTAMENTE --------" << endl;
     Apartament A;
-    Apartament B(80, 3, 6, new int[3] {460, 470, 480});
-    Apartament C(40, 1, new int{ 230 });
+    Apartament B(80, 3, 5, new int[7]);
+    Apartament C(45, 3, new int[5]);
     A.afisareAp();
     cout << "\n" << endl;
     B.afisareAp();
@@ -218,19 +228,19 @@ private:
     int nrEtaje;
     int* nrApPeEtaj;
     string chirias;
-    const string NUME_COMPANIE_ADMIN;
+    const string numeAdmin;
     static int nrTotalBl;
 
 public:
-    Bloc() : NUME_COMPANIE_ADMIN("D.A.W Administratie")
+    Bloc() : numeAdmin("D.A.W Administratie")
     {
         this->adresa = "Calea Vitan nr. 2";
         this->nrEtaje = 2;
         this->chirias = "Motca Valentin";
-        this->nrApPeEtaj = new int[this->nrEtaje]();
+        this->nrApPeEtaj = new int[this->nrEtaje];
     }
 
-    Bloc(std::string adresa, int nrEtaje, string chirias, const string nume, int* nrApPeEtaj) :NUME_COMPANIE_ADMIN(nume)
+    Bloc(std::string adresa, int nrEtaje, string chirias, const string nume, int* nrApPeEtaj) :numeAdmin(nume)
     {
         this->adresa = adresa;
         this->nrEtaje = nrEtaje;
@@ -240,7 +250,7 @@ public:
             this->nrApPeEtaj[i] = nrApPeEtaj[i];
     }
 
-    Bloc(std::string adresa, string chirias, const string nume, int* nrApPeEtaj) :NUME_COMPANIE_ADMIN(nume)
+    Bloc(std::string adresa, string chirias, const string nume, int* nrApPeEtaj) :numeAdmin(nume)
     {
         this->adresa = adresa;
         this->chirias = chirias;
@@ -253,9 +263,9 @@ public:
     void afisareBl()
     {
         cout << "Blocul se afla la adresa: " << this->adresa << "\nChirias activ al blocului: " << this->chirias
-            << "\nNumar de etaje: " << this->nrEtaje << "\nNume compania de administratie a blocului: " << this->NUME_COMPANIE_ADMIN
+            << "\nNumar de etaje: " << this->nrEtaje << "\nNume compania de administratie a blocului: " << this->numeAdmin
             << "\nNumar total blocuri: " << this->nrTotalBl
-            << "\nNumar apartamente pe etaj:"; 
+            << "\nNumar apartamente pe etaj:";
         for (int i = 0; i < this->nrEtaje; i++)
             cout << this->nrApPeEtaj[i] << " ";
         cout << endl;
@@ -263,87 +273,92 @@ public:
 
     ~Bloc()
     {
-        if (this->nrApPeEtaj != nullptr)
+        if (this->nrApPeEtaj != NULL)
         {
-            delete[] this->nrApPeEtaj;
-            this->nrApPeEtaj = nullptr;
+            delete[]this->nrApPeEtaj;
+            this->nrApPeEtaj = NULL;
         }
     }
 
-    
-    Bloc(const Bloc& bloc) : NUME_COMPANIE_ADMIN(bloc.NUME_COMPANIE_ADMIN) //constructor copiere
-    {
-        cout << "Constructor de copiere pentru Bloc\n";
-        this->adresa = bloc.adresa; 
-        this->nrEtaje = bloc.nrEtaje;
-        this->chirias = bloc.chirias; 
-        this->nrTotalBl = bloc.nrTotalBl;
-        this->nrApPeEtaj = bloc.nrApPeEtaj;
 
-        if (this->nrEtaje > 0) 
+    Bloc(const Bloc& b) : numeAdmin(b.numeAdmin) //constructor copiere
+    {
+        this->adresa = b.adresa;
+        this->nrEtaje = b.nrEtaje;
+        this->chirias = b.chirias;
+        this->nrTotalBl = b.nrTotalBl;
+        this->nrApPeEtaj = b.nrApPeEtaj;
+
+        if (this->nrEtaje > 0)
         {
             this->nrApPeEtaj = new int[this->nrEtaje];
-            for (int i = 0; i < nrEtaje; i++) 
+            for (int i = 0; i < nrEtaje; i++)
             {
-                this->nrApPeEtaj[i] = bloc.nrApPeEtaj[i];
+                this->nrApPeEtaj[i] = b.nrApPeEtaj[i];
             }
         }
     }
 
-    Bloc& Bloc::operator=(const Bloc& bloc) //op atribuire
+    Bloc& operator=(const Bloc& b) //op atribuire
     {
-        if (this != &bloc) {
-            this->adresa = bloc.adresa;
-            this->nrEtaje = bloc.nrEtaje;
-            this->chirias = bloc.chirias;
-            this->NUME_COMPANIE_ADMIN = bloc.NUME_COMPANIE_ADMIN;
-            this->nrTotalBl = bloc.nrTotalBl;
+        if (this != &b) 
+        {
+            this->adresa = b.adresa;
+            this->nrEtaje = b.nrEtaje;
+            this->chirias = b.chirias;
+            this->nrTotalBl = b.nrTotalBl;
 
-            if (this->nrApPeEtaj != nullptr) {
-                delete[] this->nrApPeEtaj;
+            if (this->nrApPeEtaj != NULL) {
+                delete[]this->nrApPeEtaj;
             }
 
             this->nrApPeEtaj = new int[this->nrEtaje];
 
-            for (int i = 0; i < this->nrEtaje; i++) {
-                this->nrApPeEtaj[i] = bloc.nrApPeEtaj[i];
+            for (int i = 0; i < this->nrEtaje; i++) 
+            {
+                this->nrApPeEtaj[i] = b.nrApPeEtaj[i];
             }
         }
         return *this;
     }
 
-    friend ostream& operator<<(ostream& consola, const Bloc& bloc) {
-        cout << "Adresa blocului: " << bloc.adresa << endl;
-        cout << "Numar de etaje: " << bloc.nrEtaje << endl;
-        cout << "Chirias activ al blocului: " << bloc.chirias << endl;
-        cout << "Nume companie administratie: " << bloc.NUME_COMPANIE_ADMIN << endl;
-        cout << "Numar total de blocuri: " << bloc.nrTotalBl << endl;
-        cout << "Numar apartamente pe etaj: ";
-        for (int i = 0; i < bloc.nrEtaje; i++)
-            cout << bloc.nrApPeEtaj[i] << " ";
+    friend ostream& operator<<(ostream& consola, const Bloc& b) {
+        cout << "Adresa blocului: " << b.adresa << endl;
+        cout << "Nr etaje: " << b.nrEtaje << endl;
+        cout << "Chirias: " << b.chirias << endl;
+        cout << "Nume companie administratie: " << b.numeAdmin << endl;
+        cout << "Nr total blocuri: " << b.nrTotalBl << endl;
+        cout << "Nr ap pe etaj: ";
+        for (int i = 0; i < b.nrEtaje; i++)
+        {
+            cout << b.nrApPeEtaj[i] << " ";
+        }
         cout << endl;
         return consola;
     }
 
-    friend istream& operator>>(istream& in, Bloc& bloc) {
-        cout << "Adresa blocului: "; in >> bloc.adresa;
+    friend istream& operator>>(istream& in, Bloc& b) {
+        cout << "Adresa blocului: "; 
+        in >> b.adresa;
 
-        cout << "Numar de etaje: "; in >> bloc.nrEtaje;
+        cout << "Numar de etaje: "; 
+        in >> b.nrEtaje;
 
-        cout << "Chirias activ al blocului: "; in >> bloc.chirias;
+        cout << "Chirias activ al blocului: "; 
+        in >> b.chirias;
 
-        cout << "Nume companie administratie: "; in >> bloc.NUME_COMPANIE_ADMIN;
-
-        cout << "Numar total de blocuri: "; in >> bloc.nrTotalBl;
+        cout << "Numar total de blocuri: "; 
+        in >> b.nrTotalBl;
 
         cout << "Numar apartamente pe etaj: ";
-        if (bloc.nrApPeEtaj != nullptr) {
-            delete[] bloc.nrApPeEtaj;
+        if (b.nrApPeEtaj != NULL) {
+            delete[] b.nrApPeEtaj;
         }
-        bloc.nrApPeEtaj = new int[bloc.nrEtaje];
-        for (int i = 0; i < bloc.nrEtaje; i++)
-            in >> bloc.nrApPeEtaj[i];
-
+        b.nrApPeEtaj = new int[b.nrEtaje];
+        for (int i = 0; i < b.nrEtaje; i++)
+        {
+            in >> b.nrApPeEtaj[i];
+        }
         return in;
     }
 
@@ -359,33 +374,33 @@ public:
         return temporar;
     }
 
-
-    string getadresa() 
+    //get
+    string getadresa()
     {
         return adresa;
     }
 
-    void setadresa(string adresa) 
+    void setadresa(string adresa)
     {
         this->adresa = adresa;
     }
 
-    int getNrEtaje() 
+    int getNrEtaje()
     {
         return nrEtaje;
     }
 
-    void setNrEtaje() 
+    void setNrEtaje()
     {
         this->nrEtaje = nrEtaje;
     }
 
-    int* getNrApPeEtaj() 
+    int* getNrApPeEtaj()
     {
         return nrApPeEtaj;
     }
 
-    void setNrApPeEtaj(int* nrApPeEtaj) 
+    void setNrApPeEtaj(int* nrApPeEtaj)
     {
         if (this->nrApPeEtaj != nullptr) {
             delete[] this->nrApPeEtaj;
@@ -395,22 +410,22 @@ public:
             this->nrApPeEtaj[i] = nrApPeEtaj[i];
     }
 
-    string getchirias() 
+    string getchirias()
     {
         return chirias;
     }
 
-    void setchirias() 
+    void setchirias()
     {
         this->chirias = chirias;
     }
 
-    string getNumeCompanieAdmin() 
+    string getNumeCompanieAdmin()
     {
-        return NUME_COMPANIE_ADMIN;
+        return numeAdmin;
     }
 
-    static int getNrTotalBl() 
+    static int getNrTotalBl()
     {
         return nrTotalBl;
     }
@@ -422,6 +437,16 @@ public:
 
     friend void verificaBloc(const Bloc& bloc);
     friend void afisareNumarTotalApartamente(const Bloc& bloc);
+
+    //operatori fisiere
+    friend ofstream& operator<<(ofstream& fisier, const Bloc& b)
+    {
+        fisier << b.adresa << "\n" << b.nrEtaje << "\n" << b.nrApPeEtaj
+            << "\n" << b.chirias << "\n" << b.numeAdmin << "\n" << b.nrTotalBl;
+        return fisier;
+    }
+
+
 };
 
 int Bloc::nrTotalBl = 5;
@@ -510,30 +535,29 @@ public:
     Locatar(const Locatar& locatar) : cota_indv_ch(locatar.cota_indv_ch) //constructor de copiere
     {
         this->nume = locatar.nume;
-        this->nrLoc = locatar.nrLoc; 
+        this->nrLoc = locatar.nrLoc;
         this->varsta = locatar.varsta;
         this->nrMaxLocatari = locatar.nrMaxLocatari;
         this->consumuriLoc = locatar.consumuriLoc;
 
-        if (varsta > 0) 
+        if (varsta > 0)
         {
             this->consumuriLoc = new double[varsta];
-            for (int i = 0; i < this->varsta; i++) 
+            for (int i = 0; i < this->varsta; i++)
             {
                 this->consumuriLoc[i] = locatar.consumuriLoc[i];
             }
         }
     }
 
-    Locatar& Locatar::operator=(const Locatar& locatar) //supraincarcarti operator=
-    { 
+    Locatar& operator=(Locatar& locatar) //supraincarcarti operator=
+    {
         if (this != &locatar) {
             this->nume = locatar.nume;
             this->nrLoc = locatar.nrLoc;
             this->varsta = locatar.varsta;
-            this->cota_indv_ch = locatar.cota_indv_ch;
 
-            if (this->consumuriLoc != nullptr) {
+            if (this->consumuriLoc != NULL) {
                 delete[] this->consumuriLoc;
             }
 
@@ -560,18 +584,20 @@ public:
     }
 
     friend istream& operator>>(istream& in, Locatar& locatar) {
-        cout << "Nume locatar: "; in >> locatar.nume;
+        cout << "Nume locatar: "; 
+        in >> locatar.nume;
 
-        cout << "Numar Apartament: "; in >> locatar.nrLoc;
+        cout << "Numar Apartament: "; 
+        in >> locatar.nrLoc;
 
-        cout << "Varsta Locatar: "; in >> locatar.varsta;
+        cout << "Varsta Locatar: "; 
+        in >> locatar.varsta;
 
-        cout << "Cota individuala de cheltuiala: "; in >> locatar.cota_indv_ch;
-
-        cout << "Numar maxim de locatari in apartament: "; in >> locatar.nrMaxLocatari;
+        cout << "Numar maxim de locatari in apartament: "; 
+        in >> locatar.nrMaxLocatari;
 
         cout << "Consumuri medii Locatar: ";
-        if (locatar.consumuriLoc != nullptr) {
+        if (locatar.consumuriLoc != NULL) {
             delete[] locatar.consumuriLoc;
         }
         locatar.consumuriLoc = new double[locatar.varsta];
@@ -599,17 +625,17 @@ public:
         return this->nume;
     }
 
-    void setNume(string nume) 
+    void setNume(string nume)
     {
         this->nume = nume;
     }
 
-    int getNrLoc() 
+    int getNrLoc()
     {
         return nrLoc;
     }
 
-    void setNrLoc(int nrLoc) 
+    void setNrLoc(int nrLoc)
     {
         this->nrLoc = nrLoc;
     }
@@ -619,12 +645,12 @@ public:
         return this->varsta;
     }
 
-    void setVarsta(int varsta) 
+    void setVarsta(int varsta)
     {
         this->varsta = varsta;
     }
 
-    const double getCotaIndvCh() 
+    const double getCotaIndvCh()
     {
         return cota_indv_ch;
     }
@@ -634,7 +660,7 @@ public:
         return consumuriLoc;
     }
 
-    void setConsumuriLoc(double* consumuriLoc) 
+    void setConsumuriLoc(double* consumuriLoc)
     {
         if (this->consumuriLoc != nullptr) {
             delete[] this->consumuriLoc;
@@ -644,7 +670,7 @@ public:
             this->consumuriLoc[i] = consumuriLoc[i];
     }
 
-    static int getNrMaxLocatari() 
+    static int getNrMaxLocatari()
     {
         return nrMaxLocatari;
     }
@@ -681,6 +707,161 @@ void afisareLocatari()
 
 }
 
+class ComplexRezidential {
+private:
+    string numeComplex;
+    int anConstructie;
+    Apartament* listaAp;  // Relatie has-a cu clasa Apartament
+    int nrAp;
+
+public:
+    ComplexRezidential() //constructor fara parametrii
+    {
+        this->numeComplex = "CORESI TOWN";
+        this->anConstructie = 2021;
+        this->nrAp = 20;
+        this->listaAp = new Apartament[this->nrAp];
+    }
+
+    ComplexRezidential(string numeComplex, int anConstructie, Apartament* li, int nrAp)
+    {
+        this->numeComplex = numeComplex;
+        this->anConstructie = anConstructie;
+        this->nrAp = nrAp;
+        this->listaAp = new Apartament[this->nrAp];
+        for (int i = 0; i < this->nrAp; i++)
+        {
+            this->listaAp[i] = li[i];
+        }
+    }
+
+    ComplexRezidential(const ComplexRezidential& c)
+    {
+        this->numeComplex = c.numeComplex;
+        this->anConstructie = c.anConstructie;
+        this->nrAp = c.nrAp;
+        this->listaAp = new Apartament[c.nrAp];
+        for (int i = 0; i < c.nrAp; i++)
+        {
+            this->listaAp[i] = c.listaAp[i];
+        }
+    }
+
+    ComplexRezidential& operator=(const ComplexRezidential& c)
+    {
+        this->numeComplex = c.numeComplex;
+        this->anConstructie = c.anConstructie;
+        this->nrAp = c.nrAp;
+        if (this->listaAp != NULL)
+        {
+            delete[]this->listaAp;
+        }
+        this->listaAp = new Apartament[c.nrAp];
+        for (int i = 0; i < c.nrAp; i++)
+        {
+            this->listaAp[i] = c.listaAp[i];
+        }
+        return *this;
+    }
+
+    ~ComplexRezidential()
+    {
+        if (this->listaAp != NULL)
+        {
+            delete[]this->listaAp;
+        }
+    }
+
+    //getteri
+    string getNumeComplex()
+    {
+        return this->numeComplex;
+    }
+
+    int getAnConst()
+    {
+        return this->anConstructie;
+    }
+
+    int getNrAp()
+    {
+        return this->nrAp;
+    }
+
+    void afisareVectorApartament() {
+        for (int i = 0; i < this->nrAp; i++) {
+            cout << this->listaAp[i] ;
+        }
+    }
+
+    //setteri
+    void setNumeComplex(string numeComplex)
+    {
+        if (numeComplex.length() > 3)
+        {
+            this->numeComplex = numeComplex;
+        }
+    }
+
+    void setAnConst(int anConstructie)
+    {
+        if (anConstructie >= 0)
+        {
+            this->anConstructie = anConstructie;
+        }
+    }
+
+    void setNrAp(int nr)
+    {
+        if (nr >= 0)
+        {
+            this->nrAp = nr;
+        }
+    }
+
+    void setListaAp(Apartament* li, int nr)
+    {
+        if (this->listaAp != NULL)
+        {
+            delete[]this->listaAp;
+        }
+        this->listaAp = new Apartament[nr];
+        for (int i = 0; i < nr; i++)
+        {
+            this->listaAp[i] = li[i];
+        }
+    }
+
+    friend ostream& operator<<(ostream& consola, ComplexRezidential c)
+    {
+        consola << endl << "Nume complex: " << c.numeComplex << endl;
+        consola << "An constructie: " << c.anConstructie << endl;
+        consola << "Nr apartamente: " << c.nrAp << endl;
+        consola << "Vector lista apartamente: " << endl;
+        for (int i = 0; i < c.nrAp; i++)
+        {
+            consola << endl << "Suprafata: " << c.listaAp[i].getsuprafata() << " mp2" << endl;
+            consola << "Nr camere: " << c.listaAp[i].getnrCamere() << endl;
+            consola << "Nr max persoane: " << c.listaAp[i].getNrMaxPers() << endl;
+            consola << "Nr apartamente: " << c.listaAp[i].getnrTotalAp() << endl;
+        }
+        return consola;
+    }
+
+    friend istream& operator>>(istream& input, ComplexRezidential& c)
+    {
+        cout << endl << "Nume complex: ";
+        input >> c.numeComplex;
+        
+        cout << "An constructie: ";
+        input >> c.anConstructie;
+
+        cout << "Nr apartamente: ";
+        input >> c.nrAp;
+
+    }
+};
+
 void afisareInformatiiLocatar(const Locatar& locatar) {
     cout << "Nume locatar: " << locatar.getNume() << "\nVarsta Locatar: " << locatar.getVarsta() << endl;
 }
@@ -701,13 +882,13 @@ void waitForKey()
     cin.get();
 }
 
-void afisareNumarTotalApartamente(const Bloc& bloc) {
+void afisareNumarTotalApartamente(const Bloc& b) {
     int numarTotal = 0;
-    for (int i = 0; i < bloc.nrEtaje; ++i) {
-        numarTotal += bloc.nrApPeEtaj[i];
+    for (int i = 0; i < b.nrEtaje; ++i) {
+        numarTotal += b.nrApPeEtaj[i];
     }
 
-    cout << "Numarul total de apartamente in blocul de pe adresa " << bloc.adresa << " este: " << numarTotal << endl;
+    cout << "Numarul total de apartamente in blocul de pe adresa " << b.adresa << " este: " << numarTotal << endl;
 }
 
 
@@ -756,38 +937,9 @@ void main()
 
     cout << "Numele locatarului L dupa actualizare: " << L.getNume() << endl;
 
-    Bloc TestBloc("Strada Test 1", 3, "Chirias Test", "Test Administratie", new int[3] {2, 3, 4});
-    cout << "\n \n-----> Afisare Numar Total Apartamente in Bloc \n " << afisareNumarTotalApartamente(TestBloc) << endl;
-
-    cout << "\n \n-----> Testare operatori:" \n << endl;
-
-    Bloc TestBl("Strada Test 1", 3, "Chirias Test", "Test Administratie", new int[3] {2, 3, 4});
-    cout << "Numar total blocuri initial: " << Bloc::getNrTotalBl() << endl;
-    TestBloc++;
-    cout << "Numar total blocuri dupa operator++ pentru TestBloc: " << Bloc::getNrTotalBl() << endl;
-    TestBloc--;
-    cout << "Numar total blocuri dupa operator-- pentru TestBloc: " << Bloc::getNrTotalBl() << endl;
-
-    Apartament TestApartament(60, 2, new int[2] {300, 400});
-    cout << "Numar total apartamente initial: " << Apartament::getnrTotalAp() << endl;
-    TestApartament++;
-    cout << "Numar total apartamente dupa operator++ pentru TestApartament: " << Apartament::getnrTotalAp() << endl;
-    TestApartament--;
-    cout << "Numar total apartamente dupa operator-- pentru TestApartament: " << Apartament::getnrTotalAp() << endl;
-
-    Locatar TestLocatar("Test Locatar", 1, 0.2, new double[30] {150, 160, 170});
-    cout << "Numar maxim locatari initial: " << Locatar::getNrMaxLocatari() << endl;
-    TestLocatar++;
-    cout << "Numar maxim locatari dupa operator++ pentru TestLocatar: " << Locatar::getNrMaxLocatari() << endl;
-    TestLocatar--;
-    cout << "Numar maxim locatari dupa operator-- pentru TestLocatar: " << Locatar::getNrMaxLocatari() << endl;
-
-
-    // *************************   FAZA 4    *****************************
-
 
   //Vector de obiecte Apartament
-    Apartament vectorA[3];
+    Apartament vectorA[2];
     for (int i = 0; i < 3; i++) {
         cin >> vectorA[i];
     }
@@ -816,17 +968,4 @@ void main()
         cout << vectorL[i] << endl;
     }
 
-    Jucator matriceA[2][3];
-    for (int i = 0; i < 2; i++) {
-        for (int j = 0; j < 3; j++) {
-            cin >> matriceA[i][j];
-        }
-    }
-
-    for (int i = 0; i < 2; i++) {
-        for (int j = 0; j < 3; j++) {
-            cout << matriceA[i][j] << "----";
-        }
-        cout << endl;
-    }
 }
