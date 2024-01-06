@@ -2,7 +2,7 @@
 #include <fstream>
 using namespace std;
 
-//Domeniul ales este "CoMpLex de apartaMente".
+//Domeniul ales este "Complex de apartamente".
 
 class Apartament {
 private:
@@ -201,6 +201,34 @@ public:
     {
         nrTotalAp = nrTotalApnou;
     }
+
+    //operatori fisier binar
+
+    fstream& scriereFisierBinar(fstream& fisierBinar) {
+        fisierBinar.write((char*)&this->suprafata, sizeof(int));
+        fisierBinar.write((char*)&this->nrCamere, sizeof(int));
+        fisierBinar.write((char*)this->costuriAp, sizeof(int) * this->nrCamere);
+        fisierBinar.write((char*)&this->nrMaxPers, sizeof(int));
+        fisierBinar.close();
+        return fisierBinar;
+    }
+
+    fstream& citireFisierBinar(fstream& fisierBinar) {
+        fisierBinar.read((char*)&this->suprafata, sizeof(int));
+        fisierBinar.read((char*)&this->nrCamere, sizeof(int));
+
+        if (this->costuriAp != nullptr) {
+            delete[] this->costuriAp;
+        }
+
+        this->costuriAp = new int[this->nrCamere];
+        fisierBinar.read((char*)this->costuriAp, sizeof(int) * this->nrCamere);
+
+        fisierBinar.read((char*)&this->nrMaxPers, sizeof(int));
+        fisierBinar.close();
+        return fisierBinar;
+    }
+
 };
 
 int Apartament::nrTotalAp = 20;
@@ -439,13 +467,60 @@ public:
     friend void afisareNumarTotalApartamente(const Bloc& bloc);
 
     //operatori fisiere
-    friend ofstream& operator<<(ofstream& fisier, const Bloc& b)
-    {
-        fisier << b.adresa << "\n" << b.nrEtaje << "\n" << b.nrApPeEtaj
-            << "\n" << b.chirias << "\n" << b.numeAdmin << "\n" << b.nrTotalBl;
+
+    friend ofstream& operator<<(ofstream& fisier, const Bloc& b) {
+        fisier << b.adresa << "\n" << b.nrEtaje << "\n" << b.chirias << "\n" << b.numeAdmin << "\n";
+        for (int i = 0; i < b.nrEtaje; ++i) {
+            fisier << b.nrApPeEtaj[i] << " ";
+        }
+        fisier << "\n";
         return fisier;
     }
 
+    friend ifstream& operator>>(ifstream& fisier, Bloc& b) {
+        fisier >> b.adresa >> b.nrEtaje >> b.chirias;
+        if (b.nrApPeEtaj != nullptr) {
+            delete[] b.nrApPeEtaj;
+        }
+        b.nrApPeEtaj = new int[b.nrEtaje]();
+        for (int i = 0; i < b.nrEtaje; ++i) {
+            fisier >> b.nrApPeEtaj[i];
+        }
+        return fisier;
+    }
+
+
+    fstream& scriereFisierBinar(fstream& fisierBinar) {
+        fisierBinar.write((char*)&this->nrTotalBl, sizeof(int));
+        fisierBinar.write((char*)this->adresa.c_str(), this->adresa.size() + 1);
+        fisierBinar.write((char*)&this->nrEtaje, sizeof(int));
+        fisierBinar.write(this->chirias.c_str(), this->chirias.size() + 1);
+        fisierBinar.write(this->numeAdmin.c_str(), this->numeAdmin.size() + 1);
+        fisierBinar.write((char*)this->nrApPeEtaj, sizeof(int) * this->nrEtaje);
+        return fisierBinar;
+    }
+
+    fstream& citireFisierBinar(fstream& fisierBinar) {
+        fisierBinar.read((char*)&this->nrTotalBl, sizeof(int));
+
+        char buffer[100];
+        fisierBinar.read(buffer, sizeof(buffer));
+        this->adresa = buffer;
+
+        fisierBinar.read((char*)&this->nrEtaje, sizeof(int));
+
+        fisierBinar.read(buffer, sizeof(buffer));
+        this->chirias = buffer;
+
+
+        if (this->nrApPeEtaj != nullptr) {
+            delete[] this->nrApPeEtaj;
+        }
+        this->nrApPeEtaj = new int[this->nrEtaje]();
+        fisierBinar.read((char*)this->nrApPeEtaj, sizeof(int) * this->nrEtaje);
+
+        return fisierBinar;
+    }
 
 };
 
@@ -682,6 +757,28 @@ public:
     }
 
     friend void afisareInformatiiLocatar(const Locatar& locatar);
+
+    //operatori fisier text
+    friend ofstream& operator<<(ofstream& fisier, const Locatar& locatar) {
+        fisier << locatar.nume << "\n" << locatar.nrLoc << "\n" << locatar.varsta << "\n";
+        for (int i = 0; i < locatar.nrLoc; ++i) {
+            fisier << locatar.consumuriLoc[i] << " ";
+        }
+        fisier << "\n" << locatar.cota_indv_ch;
+        return fisier;
+    }
+
+
+    friend ifstream& operator>>(ifstream& fisier, Locatar& locatar) {
+        fisier >> locatar.nume >> locatar.nrLoc >> locatar.varsta;
+        locatar.consumuriLoc = new double[locatar.nrLoc];
+        for (int i = 0; i < locatar.nrLoc; ++i) {
+            fisier >> locatar.consumuriLoc[i];
+        }
+        
+
+        return fisier;
+    }
 };
 
 int Locatar::nrMaxLocatari = 4;
