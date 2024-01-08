@@ -959,6 +959,232 @@ public:
     }
 };
 
+class Penthouse : public Apartament //Relatie is-a
+{
+private: 
+    int nrDormitoare;
+    int nrBai;
+    int* ConsumEnergetic;
+
+public:
+    //constructor fara parametri
+    Penthouse() : Apartament()
+    {
+        this->nrDormitoare = 4;
+        this->nrBai = 2;
+        this->ConsumEnergetic = new int[this->nrDormitoare];
+        for (int i = 0; i < this->nrDormitoare; i++)
+        {
+            this->ConsumEnergetic[i] = i + 120;
+        }
+    }
+
+    //constructor cu toti parametrii
+    Penthouse(int suprafata, int nrCamere, int* costuriAp, const int nrMaxPers, int nrDormitoare, int nrBai, int* ConsumEnergetic)
+    {
+        this->nrDormitoare = nrDormitoare;
+        this->nrBai = nrBai;
+        this->ConsumEnergetic = new int[this->nrDormitoare];
+        for (int i = 0; i < this->nrDormitoare; i++)
+        {
+            this->ConsumEnergetic[i] = ConsumEnergetic[i];
+        }
+    }
+
+    //constructor copiere
+    Penthouse(const Penthouse& ph) :Apartament(ph)
+    {
+        this->nrDormitoare = ph.nrDormitoare;
+        this->nrBai = ph.nrBai;
+        this->ConsumEnergetic = new int[ph.nrBai];
+        for (int i = 0; i < this->nrBai; i++)
+        {
+            this->ConsumEnergetic[i] = ph.ConsumEnergetic[i];
+        }
+    }
+
+
+    //destructor
+    ~Penthouse() 
+    {
+        if (this->ConsumEnergetic != NULL)
+        {
+            delete[]this->ConsumEnergetic;
+        }
+    }
+
+    //getteri
+    int getnrDormitoare()
+    {
+        return this->nrDormitoare;
+    }
+
+    int getnrBai()
+    {
+        return this->nrBai;
+    }
+
+    int* getConsumEnergetic()
+    {
+        return this->ConsumEnergetic;
+    }
+
+    //setteri
+    void setnrDormitoare(int nrD)
+    {
+        this->nrDormitoare = nrD;
+    }
+
+    void setnrBai(int nrB)
+    {
+        this->nrBai = nrB;
+    }
+
+    void setConsumEnergetic(int* ConsumEnergetic)
+    {
+        if (this->ConsumEnergetic != NULL)
+        {
+            delete[]this->ConsumEnergetic;
+        }
+        this->ConsumEnergetic = new int[this->nrDormitoare];
+        for (int i = 0; i < this->nrDormitoare; i++)
+        {
+            this->ConsumEnergetic[i] = ConsumEnergetic[i];
+        }
+    }
+
+    //operator=
+    Penthouse& operator=(const Penthouse& ph)
+    {
+        if (this != &ph)
+        {
+            (Apartament)*this = ph;
+            this->nrDormitoare = ph.nrDormitoare;
+            this->nrBai = ph.nrBai;
+            this->ConsumEnergetic = new int[ph.nrBai];
+            for (int i = 0; i < this->nrBai; i++)
+            {
+                this->ConsumEnergetic[i] = ph.ConsumEnergetic[i];
+            }
+        }
+
+        return *this;
+    }
+};
+
+class BlocDeBirouri : public Bloc
+{
+private:
+    string numeCorporatie;
+    int nrBirouri;
+    int* nrBirouriPeEtaj;
+
+public:
+    //constructor fara parametrii
+    BlocDeBirouri() :Bloc()
+    {
+        this->numeCorporatie = "FizzyEnts";
+        this->nrBirouri = 7;
+        this->nrBirouriPeEtaj = new int[this->nrBirouri];
+        {
+            for (int i = 0; i < this->nrBirouri; i++)
+            {
+                this->nrBirouriPeEtaj[i] = i * 2;
+            }
+        }
+    }
+
+    //constructor cu toti parametrii
+    BlocDeBirouri(string adresa, int nrEtaje, int* nrApPeEtaj, string chirias, const string numeAdmin, int nrBirouri, string numeCorporatie, int* nrBirouriPeEtaj)
+    {
+        this->numeCorporatie = numeCorporatie;
+        this->nrBirouri = nrBirouri;
+        this->nrBirouriPeEtaj = new int[nrBirouri];
+        for (int i = 0; i < nrBirouri; i++)
+        {
+            this->nrBirouriPeEtaj[i] = nrBirouriPeEtaj[i];
+        }
+    }
+
+    //constructor copiere
+    BlocDeBirouri(const BlocDeBirouri& bir) : Bloc(bir)
+    {
+        this->numeCorporatie = bir.numeCorporatie;
+        this->nrBirouri = bir.nrBirouri;
+        this->nrBirouriPeEtaj = new int[bir.nrBirouri];
+        for (int i = 0; i < this->nrBirouri; i++)
+        {
+            this->nrBirouriPeEtaj[i] = bir.nrBirouriPeEtaj[i];
+        }
+    }
+
+    //destructor
+    ~BlocDeBirouri()
+    {
+        if (this->nrBirouriPeEtaj != NULL)
+        {
+            delete[]this->nrBirouriPeEtaj;
+        }
+    }
+
+    //operator=
+    BlocDeBirouri& operator=(const BlocDeBirouri& bir)
+    {
+        if (this != &bir)
+        {
+            (Bloc)*this = bir;
+            this->numeCorporatie = bir.numeCorporatie;
+            this->nrBirouri = bir.nrBirouri;
+            this->nrBirouriPeEtaj = new int[bir.nrBirouri];
+            for (int i = 0; i < this->nrBirouri; i++)
+            {
+                this->nrBirouriPeEtaj[i] = bir.nrBirouriPeEtaj[i];
+            }
+        }
+    }
+
+    //getteri
+    string getNumeCorp()
+    {
+        return this->numeCorporatie;
+    }
+
+    int getNrBirouri()
+    {
+        return this->nrBirouri;
+    }
+
+    int* setBirEtaj()
+    {
+        return this->nrBirouriPeEtaj;
+    }
+
+    //setteri
+    void setNumeCorp(string nume)
+    {
+        this->numeCorporatie = nume;
+    }
+
+    void setNrBirouri(int nr)
+    {
+        this->nrBirouri = nr;
+    }
+
+    void setBirEtaj(int* nrBirouriPeEtaj)
+    {
+        if (this->nrBirouriPeEtaj != NULL)
+        {
+            delete[]this->nrBirouriPeEtaj;
+        }
+        this->nrBirouriPeEtaj = new int[this->nrBirouri];
+        for (int i = 0; i < this->nrBirouri; i++)
+        {
+            this->nrBirouriPeEtaj[i] = nrBirouriPeEtaj[i];
+        }
+    }
+
+};
+
 void afisareInformatiiLocatar(const Locatar& locatar) {
     cout << "Nume locatar: " << locatar.getNume() << "\nVarsta Locatar: " << locatar.getVarsta() << endl;
 }
@@ -1033,6 +1259,13 @@ void main()
     L.setNume("Ionescu Maria");
 
     cout << "Numele locatarului L dupa actualizare: " << L.getNume() << endl;
+
+    Penthouse ph1;
+    cout << ph1 << endl;
+
+    BlocDeBirouri bir1;
+    cout << bir1 << endl;
+
 
 
   //Vector de obiecte Apartament
